@@ -12,6 +12,7 @@ class Game {
     this.currPlayer = 1;
     this.board = [];
     this.makeHtmlBoard();
+    this.makeBoard();
   }
 
   makeBoard() {
@@ -27,7 +28,7 @@ class Game {
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement("tr");
     top.setAttribute("id", "column-top");
-    top.addEventListener("click", handleClick.bind(this));
+    top.addEventListener("click", this.handleClick.bind(this));
 
     for (let x = 0; x < this.WIDTH; x++) {
       const headCell = document.createElement("td");
@@ -63,7 +64,7 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement("div");
     piece.classList.add("piece");
-    piece.classList.add(`p${currPlayer}`);
+    piece.classList.add(`p${this.currPlayer}`);
     piece.style.top = -50 * (y + 2); // what the heck does this actually do stylistically?? Magic# :(
 
     const spot = document.getElementById(`c-${y}-${x}`);
@@ -113,7 +114,7 @@ class Game {
           y >= 0 &&
           y < this.HEIGHT &&
           x >= 0 &&
-          x < this.WIDTH &&
+          x <= this.WIDTH &&
           this.board[y][x] === this.currPlayer
       );
     }
@@ -157,7 +158,6 @@ class Game {
 }
 
 new Game(6, 7);
-
 
 /*
 const WIDTH = 7;
