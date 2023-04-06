@@ -157,6 +157,7 @@ class Game {
 
 new Game(6, 7);
 
+
 /*
 const WIDTH = 7;
 const HEIGHT = 6;
