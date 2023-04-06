@@ -11,6 +11,7 @@ class Game {
     this.HEIGHT = height;
     this.currPlayer = 1;
     this.board = [];
+    this.makeHtmlBoard();
   }
 
   makeBoard() {
@@ -21,12 +22,12 @@ class Game {
 
   makeHtmlBoard() {
     const HTMLboard = document.getElementById("board");
-    console.log(HTMLboard);
+    // console.log(HTMLboard);
 
     // make column tops (clickable area for adding a piece to that column)
     const top = document.createElement("tr");
     top.setAttribute("id", "column-top");
-    top.addEventListener("click", handleClick);
+    top.addEventListener("click", handleClick.bind(this));
 
     for (let x = 0; x < this.WIDTH; x++) {
       const headCell = document.createElement("td");
