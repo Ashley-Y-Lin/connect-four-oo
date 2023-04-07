@@ -7,26 +7,47 @@
  * board fills (tie)
  */
 
-//TODO: make height and width lowercase
+//TODO: make docstrings
+
 const btnDiv = document.createElement("div");
+
+//TODO: add default colors to the form inputs themselves
+const player1color = document.createElement("input");
+player1color.placeholder = "Player 1 color";
+const player2color = document.createElement("input");
+player2color.placeholder = "Player 2 color";
+btnDiv.append(player1color);
+btnDiv.append(player2color);
+
 const startBtn = document.createElement("button");
 startBtn.innerHTML = "START GAME!";
 const page = document.getElementById("game");
 btnDiv.append(startBtn);
 page.prepend(btnDiv);
 startBtn.addEventListener("click", function () {
-  new Game(6, 7);
+  new Game(6, 7, player1color.value, player2color.value);
 });
 
+class Player {
+  constructor(color) {
+    this.color = color;
+  }
+}
+
 class Game {
-  constructor(height, width) {
+  // pass in default color values for each player
+  //TODO: maybe figure out how to add defaut colors for players, or add validation
+  // that colors have been chosen
+  constructor(height=6, width=7, p1Color = "red", p2Color = "blue") {
     this.width = width;
     this.height = height;
-    this.currPlayer = 1;
     this.board = [];
     this.makeHtmlBoard();
     this.makeBoard();
     this.gameStatus = true;
+    this.player1 = new Player(p1Color);
+    this.player2 = new Player(p2Color);
+    this.currPlayer = this.player1;
   }
 
   makeBoard() {
@@ -79,7 +100,8 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement("div");
     piece.classList.add("piece");
-    piece.classList.add(`p${this.currPlayer}`);
+    // piece.classList.add(`p${this.currPlayer}`);
+    piece.style.backgroundColor = this.currPlayer.color;
     piece.style.top = -50 * (y + 2); // what the heck does this actually do stylistically?? Magic# :(
 
     const spot = document.getElementById(`c-${y}-${x}`);
@@ -121,7 +143,7 @@ class Game {
     }
 
     // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    this.currPlayer = this.currPlayer === this.player1 ? this.player2 : this.player1;
   }
 
   checkForWin() {
